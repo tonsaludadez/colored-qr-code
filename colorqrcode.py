@@ -14,8 +14,8 @@ ACTIONS = ['encode', 'decode']
 
 class ColorQRCode:
 	MAX_BYTES = 2953
-	FILE_TYPES_CODE = ['11111111', '11111110', '11111100','11111000','11110000']
-	FILE_TYPES = ['png', 'txt', 'mid','jpg','gif']
+	# FILE_TYPES_CODE = ['11111111', '11111110', '11111100','11111000','11110000']
+	FILE_TYPES = ['png', 'txt', 'mid', 'jpg', 'gif']
 
 	def __init__(self, path):
 		print "Initializing................",
@@ -34,14 +34,18 @@ class ColorQRCode:
 		print("%s seconds" % (time.time() - start_time))
 
 	def get_data(self):
-		print "Converting data to binary...",
+		print "Converting data...",
 		start_time = time.time()
 
 		with open(self.path, 'rb') as file:
-			temp = ColorQRCode.FILE_TYPES_CODE[ColorQRCode.FILE_TYPES.index(self.filetype)]
+			# temp = ColorQRCode.FILE_TYPES_CODE[ColorQRCode.FILE_TYPES.index(self.filetype)]
+			if self.filetype in ColorQRCode.FILE_TYPES:
+				temp = '{0:b}'.format(ColorQRCode.FILE_TYPES.index(self.filetype)).zfill(8)
+			else:
+				return -1
 			temp += file.read()
 			if self.filetype != 'txt':
-				print len(temp)
+				# print len(temp)
 				temp = base64.b64encode(temp)
 		self.data = temp
 		print "Done: ",
@@ -123,11 +127,13 @@ class ColorQRCode:
 		print("%s seconds" % (time.time() - start_time))
 	
 	def encode_color_qr_code(self):
-		self.get_data()
-		if self.encode_to_qr_codes() != -1:
-			self.generate_color_qr_code()
+		if self.get_data() != -1:
+			if self.encode_to_qr_codes() != -1:
+				self.generate_color_qr_code()
+			else:
+				print "Invalid file size. Cannot encode data to qr code."
 		else:
-			print "Cannot encode data to qr code."
+			print "Invalid file type. Cannot encode data to qr code."
 
 	def decode_color_qr_code(self):
 		print "Decoding color QR code......",
@@ -195,12 +201,12 @@ class ColorQRCode:
 			return -1;
 
 		filetype = ""
-		if not data.startswith(ColorQRCode.FILE_TYPES_CODE[ColorQRCode.FILE_TYPES.index('txt')]):
+		if not data.startswith('{0:b}'.format(ColorQRCode.FILE_TYPES.index('txt')).zfill(8)):
 			data = base64.b64decode(data)
 
 		ft = data[:8]
 		data = data[8:]
-		filetype = ColorQRCode.FILE_TYPES[ColorQRCode.FILE_TYPES_CODE.index(ft)]
+		filetype = ColorQRCode.FILE_TYPES[int(ft, 2)]
 
 		with open('DECODED' + str(self.filename) + '.' + filetype, 'wb') as file:
 			file.write(data)
@@ -210,6 +216,8 @@ class ColorQRCode:
 
 def main():
 	if action in ACTIONS:
+		print "----EXECUTE PROGRAM----"
+		start_time = time.time()
 		if action == 'encode':
 			cqr1 = ColorQRCode(path)
 			cqr1.encode_color_qr_code()
@@ -217,6 +225,7 @@ def main():
 			cqr2 = ColorQRCode(path)
 			if cqr2.decode_color_qr_code() == -1:
 				print "Image is not a QR code"
+		print("----END TIME: %s seconds----" % (time.time() - start_time))
 	else:
 		print str(action) + " is not a valid action"
 
