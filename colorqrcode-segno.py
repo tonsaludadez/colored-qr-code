@@ -2,8 +2,8 @@ from PIL import Image
 from pyzbar.pyzbar import decode
 import base64
 import errno
+import segno
 import os
-import pyqrcode
 import sys
 import textwrap
 import time
@@ -66,7 +66,7 @@ class ColorQRCode:
 			return -1
 
 		for i in range(len(data)):
-			self.qr_codes.append(pyqrcode.create(data[i], version=40, error='L'))
+			self.qr_codes.append(segno.make(str(data[i]), version = 40, error = 'l', mask=0))
 
 		self.max_bin = '1' * len(data)
 		print "Done: ",
@@ -87,7 +87,7 @@ class ColorQRCode:
 		for code in self.qr_codes:
 			fn = self.folder_path + 'qcode' + str(ctr+1) + '.png'
 			self.qr_codes_filename.append(fn)
-			code.png(fn, scale=3)
+			code.save(fn, scale=3)
 			ctr += 1
 
 		qr_codes = []
