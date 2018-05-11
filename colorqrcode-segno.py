@@ -18,7 +18,7 @@ class ColorQRCode:
 	FILE_TYPES = ['png', 'txt', 'mid', 'jpg', 'gif']
 
 	def __init__(self, path):
-		print "Initializing................",
+		print "Initializing......................",
 		start_time = time.time()
 
 		self.path = path
@@ -34,8 +34,15 @@ class ColorQRCode:
 		print("%s seconds" % (time.time() - start_time))
 
 	def get_data(self):
-		print "Converting data...",
+		print "Converting data...................",
 		start_time = time.time()
+
+		if not os.path.exists(os.path.dirname(self.folder_path)):
+		    try:
+		        os.makedirs(os.path.dirname(self.folder_path))
+		    except OSError as exc:
+		        if exc.errno != errno.EEXIST:
+		            raise
 
 		with open(self.path, 'rb') as file:
 			# temp = ColorQRCode.FILE_TYPES_CODE[ColorQRCode.FILE_TYPES.index(self.filetype)]
@@ -52,7 +59,7 @@ class ColorQRCode:
 		print("%s seconds" % (time.time() - start_time))
 
 	def encode_to_qr_codes(self):
-		print "Encoding data to QR code....",
+		print "Encoding data to QR codes.........",
 		start_time = time.time()
 
 		size = len(self.data)
@@ -73,21 +80,14 @@ class ColorQRCode:
 		print("%s seconds" % (time.time() - start_time))
 
 	def generate_color_qr_code(self):
-		print "Generating color QR code....",
+		print "Generating color QR code..........",
 		start_time = time.time()
-
-		if not os.path.exists(os.path.dirname(self.folder_path)):
-		    try:
-		        os.makedirs(os.path.dirname(self.folder_path))
-		    except OSError as exc:
-		        if exc.errno != errno.EEXIST:
-		            raise
 
 		ctr = 0
 		for code in self.qr_codes:
 			fn = self.folder_path + 'qcode' + str(ctr+1) + '.png'
 			self.qr_codes_filename.append(fn)
-			code.save(fn, scale=3)
+			code.save(fn, scale=2)
 			ctr += 1
 
 		qr_codes = []
@@ -136,7 +136,7 @@ class ColorQRCode:
 			print "Invalid file type. Cannot encode data to qr code."
 
 	def decode_color_qr_code(self):
-		print "Decoding color QR code......",
+		print "Demultiplexing color QR code......",
 		start_time = time.time()
 
 		cqr = Image.open(self.path)
@@ -189,6 +189,11 @@ class ColorQRCode:
 			color_qr_code.save(str(self.folder_path) + "decoded" + str(ctr+1) + ".png")
 			ctr += 1
 		
+		print "Done: ",
+		print("%s seconds" % (time.time() - start_time))
+
+		print "Decoding QR codes.................",
+		start_time = time.time()
 
 		data = ""
 		path = self.folder_path.replace('/', '\\')
@@ -204,6 +209,12 @@ class ColorQRCode:
 		if not data.startswith('{0:b}'.format(ColorQRCode.FILE_TYPES.index('txt')).zfill(8)):
 			data = base64.b64decode(data)
 
+		print "Done: ",
+		print("%s seconds" % (time.time() - start_time))
+
+		print "Producing encoded file............",
+		start_time = time.time()
+
 		ft = data[:8]
 		data = data[8:]
 		filetype = ColorQRCode.FILE_TYPES[int(ft, 2)]
@@ -216,7 +227,7 @@ class ColorQRCode:
 
 def main():
 	if action in ACTIONS:
-		print "----EXECUTE PROGRAM----"
+		print "----RUNNING PROGRAM: " + action
 		start_time = time.time()
 		if action == 'encode':
 			cqr1 = ColorQRCode(path)
@@ -225,7 +236,7 @@ def main():
 			cqr2 = ColorQRCode(path)
 			if cqr2.decode_color_qr_code() == -1:
 				print "Image is not a QR code"
-		print("----END TIME: %s seconds----" % (time.time() - start_time))
+		print("----END TIME: %s seconds" % (time.time() - start_time))
 	else:
 		print str(action) + " is not a valid action"
 
