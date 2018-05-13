@@ -14,8 +14,8 @@ ACTIONS = ['encode', 'decode']
 
 class ColorQRCode:
 	MAX_BYTES = 2953
-	# FILE_TYPES_CODE = ['11111111', '11111110', '11111100','11111000','11110000']
-	FILE_TYPES = ['png', 'txt', 'mid', 'jpg', 'gif']
+	SCALE = 2
+	FILE_TYPES = ['png', 'txt', 'mid', 'jpg', 'gif'] 																   # Should support 2^8 filetypes
 
 	def __init__(self, path):
 		print "Initializing......................",
@@ -45,14 +45,12 @@ class ColorQRCode:
 		            raise
 
 		with open(self.path, 'rb') as file:
-			# temp = ColorQRCode.FILE_TYPES_CODE[ColorQRCode.FILE_TYPES.index(self.filetype)]
 			if self.filetype in ColorQRCode.FILE_TYPES:
 				temp = '{0:b}'.format(ColorQRCode.FILE_TYPES.index(self.filetype)).zfill(8)
 			else:
 				return -1
 			temp += file.read()
 			if self.filetype != 'txt':
-				# print len(temp)
 				temp = base64.b64encode(temp)
 		self.data = temp
 		print "Done: ",
@@ -63,12 +61,8 @@ class ColorQRCode:
 		start_time = time.time()
 
 		size = len(self.data)
-		# data = textwrap.wrap(self.data, ColorQRCode.MAX_BYTES)
 		data = [self.data[i:i+ColorQRCode.MAX_BYTES] for i in range(0, len(self.data), ColorQRCode.MAX_BYTES)]
-		# print "SIZE: ",
-		# print size
-		# print "ARRAY: ",
-		# print len(data)
+		# print "SIZE: " str(size) + "\nARRAY: " + str(len(data)
 		if len(data) > 24:
 			return -1
 
@@ -87,7 +81,7 @@ class ColorQRCode:
 		for code in self.qr_codes:
 			fn = self.folder_path + 'qcode' + str(ctr+1) + '.png'
 			self.qr_codes_filename.append(fn)
-			code.save(fn, scale=2)
+			code.save(fn, scale=ColorQRCode.SCALE)
 			ctr += 1
 
 		qr_codes = []
@@ -98,9 +92,9 @@ class ColorQRCode:
 		for qr_code in qr_codes:
 			qr_code_data.append(qr_code.getdata())
 
-		qr_code_color = []															#
+		qr_code_color = []																							   #
 		for i in range(len(qr_code_data[0])):										
-			qr_code_color.append('')												#	Initializing qr_code_data list
+			qr_code_color.append('')																				   # Initializing qr_code_data list
 
 		for qr_data in qr_code_data:
 			ctr = 0
@@ -119,7 +113,7 @@ class ColorQRCode:
 				color = textwrap.wrap(code_color.zfill(24), 8)
 				qr_code_color_data.append((int(color[0],2), int(color[1],2), int(color[2],2)))
 
-		color_qr_code = Image.new('RGB', (555, 555))
+		color_qr_code = Image.new('RGB', (ColorQRCode.SCALE*185, ColorQRCode.SCALE*185))
 		color_qr_code.putdata(qr_code_color_data)
 		color_qr_code.save(str(self.filename) + str(self.filetype) + '-colorqr.png')
 		
@@ -173,7 +167,6 @@ class ColorQRCode:
 			for i in xrange(16, 24):
 				qr_data[i] += b[ctr]
 				ctr += 1 
-		
 
 		ctr = 0
 		for data in qr_data:
@@ -184,9 +177,9 @@ class ColorQRCode:
 				else:
 					img_data.append((255, 255, 255))
 			
-			color_qr_code = Image.new('RGB', (555, 555))
-			color_qr_code.putdata(img_data)
-			color_qr_code.save(str(self.folder_path) + "decoded" + str(ctr+1) + ".png")
+			qr_code = Image.new('RGB', (ColorQRCode.SCALE*185, ColorQRCode.SCALE*185))
+			qr_code.putdata(img_data)
+			qr_code.save(str(self.folder_path) + "decoded" + str(ctr+1) + ".png")
 			ctr += 1
 		
 		print "Done: ",
@@ -202,12 +195,12 @@ class ColorQRCode:
 			if decoded_data:
 				data += str(decoded_data[0].data)
 
-		if not data:
-			return -1;
+		if not data:																								   # If there is no data decoded,
+			return -1;																								   # then image is not a QR code
 
 		filetype = ""
-		if not data.startswith('{0:b}'.format(ColorQRCode.FILE_TYPES.index('txt')).zfill(8)):
-			data = base64.b64decode(data)
+		if not data.startswith('{0:b}'.format(ColorQRCode.FILE_TYPES.index('txt')).zfill(8)):						   # If data is in base64 format,
+			data = base64.b64decode(data)																		       # then decode it
 
 		print "Done: ",
 		print("%s seconds" % (time.time() - start_time))
@@ -215,8 +208,8 @@ class ColorQRCode:
 		print "Producing encoded file............",
 		start_time = time.time()
 
-		ft = data[:8]
-		data = data[8:]
+		ft = data[:8]																								   # Get the initial byte for determining file type
+		data = data[8:]																								   # The remaining data is the input file's data
 		filetype = ColorQRCode.FILE_TYPES[int(ft, 2)]
 
 		with open('DECODED' + str(self.filename) + '.' + filetype, 'wb') as file:
