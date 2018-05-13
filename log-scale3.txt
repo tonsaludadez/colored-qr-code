@@ -1,0 +1,89 @@
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py test-files\test.txt encode
+----RUNNING PROGRAM: encode
+Initializing...................... Done:  0.000999927520752 seconds
+Converting data................... Done:  0.00200009346008 seconds
+Encoding data to QR codes......... Done:  3.28199982643 seconds
+Generating color QR code.......... Done:  12.0850000381 seconds
+----END TIME: 15.3869998455 seconds
+
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py testtxt-colorqr.png decode
+----RUNNING PROGRAM: decode
+Initializing...................... Done:  0.00100016593933 seconds
+Demultiplexing color QR code...... Done:  123.513999939 seconds
+Decoding QR codes................. Done:  2.8029999733 seconds
+Producing encoded file............ Done:  0.0110001564026 seconds
+----END TIME: 126.334000111 seconds
+
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py test-files\test.png encode
+----RUNNING PROGRAM: encode
+Initializing...................... Done:  0.0 seconds
+Converting data................... Done:  0.000999927520752 seconds
+Encoding data to QR codes......... Done:  2.54799985886 seconds
+Generating color QR code.......... Done:  11.2820000648 seconds
+----END TIME: 13.8510000706 seconds
+
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py testpng-colorqr.png decode
+----RUNNING PROGRAM: decode
+Initializing...................... Done:  0.0 seconds
+Demultiplexing color QR code...... Done:  126.279999971 seconds
+Decoding QR codes................. Done:  2.29399991035 seconds
+Producing encoded file............ Done:  0.00300002098083 seconds
+----END TIME: 128.582999945 seconds
+
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py test-files\test.mid encode
+----RUNNING PROGRAM: encode
+Initializing...................... Done:  0.0 seconds
+Converting data................... Done:  0.000999927520752 seconds
+Encoding data to QR codes......... Done:  0.50400018692 seconds
+Generating color QR code.......... Done:  7.70000004768 seconds
+----END TIME: 8.22000002861 seconds
+
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py testmid-colorqr.png decode
+----RUNNING PROGRAM: decode
+Initializing...................... Done:  0.000999927520752 seconds
+Demultiplexing color QR code...... Done:  135.455999851 seconds
+Decoding QR codes................. Done:  2.79399991035 seconds
+Producing encoded file............ Done:  0.0130000114441 seconds
+----END TIME: 138.272000074 seconds
+
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py test-files\test.gif encode
+----RUNNING PROGRAM: encode
+Initializing...................... Done:  0.0 seconds
+Converting data................... Done:  0.000999927520752 seconds
+Encoding data to QR codes......... Done:  2.73699998856 seconds
+Generating color QR code.......... Done:  12.4029998779 seconds
+----END TIME: 15.1610000134 seconds
+
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py testgif-colorqr.png decode
+----RUNNING PROGRAM: decode
+Initializing...................... Done:  0.0 seconds
+Demultiplexing color QR code...... Done:  114.59800005 seconds
+Decoding QR codes................. Done:  2.66199994087 seconds
+Producing encoded file............ Done:  0.00300002098083 seconds
+----END TIME: 117.267999887 seconds
+
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py test-files\test.jpg encode
+----RUNNING PROGRAM: encode
+Initializing...................... Done:  0.0 seconds
+Converting data................... Done:  0.000999927520752 seconds
+Encoding data to QR codes......... Done:  2.43000006676 seconds
+Generating color QR code.......... Done:  10.9049999714 seconds
+----END TIME: 13.3580000401 seconds
+
+C:\Users\tonds\Documents\Projects\colored-qr-code (master -> origin)
+(thesis2) λ python colorqrcode-segno.py testjpg-colorqr.png decode
+----RUNNING PROGRAM: decode
+Initializing...................... Done:  0.0 seconds
+Demultiplexing color QR code...... Done:  141.736000061 seconds
+Decoding QR codes................. Done:  2.50200009346 seconds
+Producing encoded file............ Done:  0.00799989700317 seconds
+----END TIME: 144.253000021 seconds
